@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salât ʿala Nabi ﷺ</title>
+<meta name="theme-color" content="#1a6b4a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Salât ﷺ">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Lateef:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:#1a6b4a; --green-light:#2a9068; --green-pale:#e8f5ef;
+  --gold:#c9a24b; --gold-light:#e8c87a;
+  --blue:#2a5a8c;
+  --cream:#fdf8f0; --text:#2d3748; --muted:#718096;
+  --border:#d4e6dc; --shadow:0 4px 24px rgba(26,107,74,0.10);
+  --red:#e53e3e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(26,107,74,0.08) 0%,transparent 70%),
+             radial-gradient(ellipse 60% 40% at 90% 80%,rgba(201,162,75,0.06) 0%,transparent 60%);}
+.container{max-width:680px;margin:0 auto;padding:2rem 1.2rem 6rem;position:relative;z-index:1;}
+
+/* HEADER */
+.header{text-align:center;margin-bottom:1.5rem;animation:fadeDown 0.7s ease;}
+.arabic-title{font-family:'Lateef',serif;font-size:2.4rem;color:var(--green);line-height:1.5;margin-bottom:0.2rem;transition:opacity 0.2s;display:inline-block;}
+.arabic-title.editable{cursor:pointer;border-bottom:2px dashed var(--gold);padding-bottom:0.2rem;}
+.arabic-title.editable:hover{opacity:0.75;}
+.subtitle{font-family:'Amiri',serif;font-size:1rem;color:var(--gold);margin-bottom:0.4rem;font-style:italic;}
+.desc{font-size:0.85rem;color:var(--muted);}
+.ornament{display:flex;align-items:center;justify-content:center;gap:0.8rem;margin:0.7rem 0;color:var(--gold);}
+.ornament::before,.ornament::after{content:'';height:1px;width:60px;}
+.ornament::before{background:linear-gradient(90deg,transparent,var(--gold));}
+.ornament::after{background:linear-gradient(90deg,var(--gold),transparent);}
+.arabic-edit-area{display:none;margin-top:0.5rem;}
+.arabic-edit-area input{width:100%;font-family:'Lateef',serif;font-size:1.5rem;text-align:center;direction:rtl;border:2px solid var(--gold);border-radius:10px;padding:0.5rem 1rem;background:white;outline:none;color:var(--green);}
+.arabic-edit-btns{display:flex;gap:0.5rem;justify-content:center;margin-top:0.5rem;}
+.btn-save-arabic{background:var(--green);color:white;border:none;border-radius:8px;padding:0.4rem 1.2rem;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;}
+.btn-cancel-arabic{background:none;border:1.5px solid var(--border);border-radius:8px;padding:0.4rem 1rem;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;color:var(--muted);}
+
+/* STATUS */
+.status-bar{display:flex;align-items:center;gap:0.8rem;background:white;border-radius:12px;padding:0.7rem 1rem;margin-bottom:1.2rem;box-shadow:var(--shadow);border:1px solid var(--border);font-size:0.8rem;}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e0;flex-shrink:0;}
+.status-dot.online{background:#48bb78;box-shadow:0 0 0 3px rgba(72,187,120,0.25);animation:blink 2s infinite;}
+.status-dot.error{background:#fc8181;}
+.status-text{color:var(--muted);flex:1;}
+.sync-ind{font-size:0.75rem;color:var(--green);font-weight:600;opacity:0;transition:opacity 0.3s;}
+.sync-ind.show{opacity:1;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* DUAL TOTALS */
+.dual-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.total-card{border-radius:20px;padding:1.5rem 1.2rem;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.15);position:relative;overflow:hidden;}
+.total-card::before{position:absolute;right:-10px;top:-10px;font-size:6rem;opacity:0.07;color:white;line-height:1;}
+.tc-global{background:linear-gradient(135deg,#1a3a5c,#2a5a8c);}
+.tc-global::before{content:'∑';}
+.tc-day{background:linear-gradient(135deg,var(--green),var(--green-light));}
+.tc-day::before{content:'☪';}
+.total-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.15em;color:rgba(255,255,255,0.75);margin-bottom:0.3rem;font-weight:600;}
+.total-number{font-size:2.8rem;font-weight:800;color:white;line-height:1;margin-bottom:0.3rem;font-variant-numeric:tabular-nums;cursor:pointer;transition:filter 0.3s;}
+.total-number.masked{filter:blur(8px);}
+.total-number::after{content:'👁';position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:0.7rem;opacity:0;transition:opacity 0.2s;pointer-events:none;}
+.total-number:hover::after{opacity:0.6;}
+.total-sub{font-size:0.75rem;color:rgba(255,255,255,0.7);}
+.today-badge{display:inline-block;background:rgba(255,255,255,0.15);border-radius:999px;padding:0.2rem 0.6rem;font-size:0.7rem;color:rgba(255,255,255,0.9);margin-top:0.4rem;font-weight:600;}
+
+/* PROGRESS CARD */
+.progress-card{background:white;border-radius:16px;padding:1rem 1.4rem;box-shadow:var(--shadow);margin-bottom:1.2rem;border:1px solid var(--border);}
+.prog-info{display:flex;justify-content:space-between;font-size:0.82rem;color:var(--muted);margin-bottom:0.6rem;font-weight:600;}
+.prog-bar-wrap{background:#e2e8f0;border-radius:999px;height:8px;overflow:hidden;}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--gold-light),var(--gold));border-radius:999px;transition:width 0.6s cubic-bezier(0.34,1.56,0.64,1);min-width:4px;}
+.prog-goal{font-size:0.75rem;color:var(--muted);margin-top:0.4rem;text-align:right;}
+
+/* CONFIG BAR */
+.config-bar{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;background:white;border-radius:12px;padding:0.8rem 1rem;margin-bottom:1.2rem;box-shadow:var(--shadow);border:1px solid var(--border);}
+.config-item{display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;color:var(--muted);flex:1;}
+.config-input{border:1.5px solid var(--border);border-radius:8px;padding:0.3rem 0.6rem;font-size:0.83rem;font-family:'Nunito',sans-serif;font-weight:700;color:var(--green);background:var(--cream);width:85px;outline:none;}
+.btn-sm{border-radius:8px;padding:0.3rem 0.7rem;font-size:0.76rem;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;border:1.5px solid;white-space:nowrap;}
+.btn-red{border-color:#fc8181;color:var(--red);background:none;}
+.btn-red:hover{background:#fff5f5;}
+.btn-gold{border-color:var(--gold);color:#92660a;background:none;}
+.btn-gold:hover{background:#fef9ec;}
+.btn-gold.active{background:var(--gold);color:white;}
+
+/* CARD */
+.card{background:white;border-radius:16px;padding:1.5rem 1.4rem;box-shadow:var(--shadow);margin-bottom:1.2rem;border:1px solid var(--border);}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;cursor:pointer;user-select:none;}
+.card-head:hover{opacity:0.85;}
+.card-title{font-size:0.95rem;font-weight:700;color:var(--green);display:flex;align-items:center;gap:0.5rem;}
+.card-title::before{content:'';display:block;width:4px;height:1.1em;border-radius:2px;background:var(--gold);flex-shrink:0;}
+.card-title.blue::before{background:#4299e1;}
+.arrow{font-size:0.8rem;transition:transform 0.3s;color:var(--muted);}
+.arrow.open{transform:rotate(180deg);}
+.collapsible{display:none;}
+.collapsible.open{display:block;}
+
+/* FORM */
+.form-row{display:flex;gap:0.7rem;flex-wrap:wrap;margin-bottom:0.8rem;}
+.form-group{display:flex;flex-direction:column;gap:0.35rem;flex:1;min-width:130px;}
+.form-label{font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);}
+.form-label span{text-transform:none;letter-spacing:0;font-weight:400;}
+input[type=text],input[type=number],input[type=time]{border:1.5px solid var(--border);border-radius:10px;padding:0.7rem 0.9rem;font-size:0.95rem;font-family:'Nunito',sans-serif;color:var(--text);background:var(--cream);outline:none;width:100%;transition:border-color 0.2s,box-shadow 0.2s;}
+input:focus{border-color:var(--green-light);box-shadow:0 0 0 3px rgba(42,144,104,0.12);background:white;}
+input[type=number]{font-weight:700;}
+
+/* TOGGLE SWITCH */
+.toggle-row{display:flex;align-items:center;gap:0.8rem;padding:0.6rem 0.8rem;background:var(--cream);border-radius:10px;border:1px solid var(--border);cursor:pointer;margin-bottom:0.8rem;}
+.toggle-switch{width:36px;height:20px;background:#cbd5e0;border-radius:999px;position:relative;flex-shrink:0;transition:background 0.2s;}
+.toggle-switch::after{content:'';position:absolute;width:14px;height:14px;background:white;border-radius:50%;top:3px;left:3px;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+.toggle-switch.on{background:var(--green);}
+.toggle-switch.on::after{transform:translateX(16px);}
+.toggle-label{font-size:0.83rem;font-weight:600;color:var(--text);flex:1;}
+.toggle-sub{font-size:0.7rem;color:var(--muted);display:block;}
+
+/* SUBMIT BTN */
+.btn-submit{width:100%;background:linear-gradient(135deg,var(--green),var(--green-light));color:white;border:none;border-radius:12px;padding:0.85rem 2rem;font-size:0.92rem;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(26,107,74,0.3);transition:transform 0.15s,box-shadow 0.15s,opacity 0.15s;}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,107,74,0.4);}
+.btn-submit:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+
+/* CLASSEMENT */
+.member-list{display:flex;flex-direction:column;gap:0.6rem;}
+.member-item{display:flex;align-items:center;gap:0.7rem;padding:0.7rem 0.9rem;background:var(--cream);border-radius:12px;border:1px solid var(--border);animation:fadeIn 0.4s ease both;}
+.member-item:hover{background:var(--green-pale);}
+.rank{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0;background:var(--border);color:var(--muted);}
+.rank.gold{background:linear-gradient(135deg,#f6d365,var(--gold));color:white;}
+.rank.silver{background:linear-gradient(135deg,#d0d0d0,#a0a0a0);color:white;}
+.rank.bronze{background:linear-gradient(135deg,#d4a574,#b5844a);color:white;}
+.member-name{font-weight:600;font-size:0.9rem;color:var(--text);flex:1;}
+.member-bar-wrap{flex:2;background:var(--border);border-radius:999px;height:5px;overflow:hidden;}
+.member-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--green-light));border-radius:999px;transition:width 0.5s ease;min-width:4px;}
+.member-right{display:flex;flex-direction:column;align-items:flex-end;}
+.member-count{font-weight:700;font-size:0.88rem;color:var(--green);font-variant-numeric:tabular-nums;}
+.member-pct{font-size:0.68rem;color:var(--muted);}
+.edit-btn{background:none;border:none;font-size:0.9rem;cursor:pointer;opacity:0.4;padding:0.2rem;flex-shrink:0;transition:opacity 0.2s;}
+.edit-btn:hover{opacity:1;}
+
+/* HISTORIQUE */
+.history-tabs{display:flex;gap:0.4rem;margin-bottom:1rem;background:var(--cream);border-radius:10px;padding:0.3rem;}
+.history-tab{flex:1;text-align:center;padding:0.5rem 0.2rem;font-size:0.8rem;font-weight:700;border-radius:8px;cursor:pointer;color:var(--muted);border:none;background:none;font-family:'Nunito',sans-serif;transition:all 0.2s;}
+.history-tab.active{background:white;color:var(--green);box-shadow:0 2px 8px rgba(0,0,0,0.08);}
+.history-item{display:flex;align-items:center;gap:0.7rem;padding:0.75rem 0.9rem;background:var(--cream);border-radius:12px;border:1px solid var(--border);margin-bottom:0.5rem;}
+.history-date{font-weight:700;font-size:0.8rem;color:var(--text);min-width:75px;}
+.history-day{font-size:0.67rem;color:var(--muted);font-weight:400;display:block;}
+.history-bar-wrap{flex:1;background:var(--border);border-radius:999px;height:5px;overflow:hidden;min-width:40px;}
+.history-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--green-light));border-radius:999px;min-width:4px;}
+.history-total{font-weight:800;font-size:0.95rem;color:var(--green);font-variant-numeric:tabular-nums;min-width:55px;text-align:right;}
+.history-badge{font-size:0.65rem;background:var(--green);color:white;border-radius:999px;padding:0.15rem 0.45rem;font-weight:700;white-space:nowrap;}
+.history-badge.gold{background:var(--gold);}
+.section-header{display:flex;align-items:center;justify-content:space-between;background:var(--green-pale);border-radius:12px;padding:0.65rem 0.9rem;margin-bottom:0.5rem;cursor:pointer;border:1px solid var(--border);}
+.section-header:hover{background:#d4eee3;}
+.section-title{font-weight:700;font-size:0.88rem;color:var(--green);}
+.section-right{display:flex;align-items:center;gap:0.5rem;}
+.section-total{font-size:0.8rem;color:var(--muted);font-weight:600;}
+.section-arrow{font-size:0.72rem;color:var(--muted);transition:transform 0.2s;}
+.section-arrow.open{transform:rotate(180deg);}
+.section-body{display:none;padding-left:0.2rem;}
+.section-body.open{display:block;}
+.btn-del-sm{font-size:0.68rem;background:none;border:1.5px solid #fc8181;color:var(--red);border-radius:6px;padding:0.15rem 0.45rem;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;}
+.btn-del-sm:hover{background:#fff5f5;}
+
+/* RAPPEL */
+.rappel-row{display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:0.7rem;}
+input[type=time]{width:120px;flex-shrink:0;}
+.rappel-desc{font-size:0.78rem;color:var(--muted);line-height:1.5;}
+
+/* MODAL EDIT */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:200;align-items:center;justify-content:center;}
+.modal-overlay.show{display:flex;}
+.modal-box{background:white;border-radius:20px;padding:1.8rem 1.5rem;width:90%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.25);animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);}
+.modal-title{font-size:1rem;font-weight:800;color:var(--green);margin-bottom:1.2rem;}
+.modal-field{margin-bottom:0.9rem;}
+.modal-field label{font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);display:block;margin-bottom:0.35rem;}
+.modal-hint{font-size:0.72rem;color:var(--muted);margin-top:0.3rem;}
+.modal-btns{display:flex;gap:0.6rem;margin-top:1.2rem;flex-wrap:wrap;}
+.modal-btns button{flex:1;padding:0.7rem 0.5rem;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;min-width:80px;}
+.btn-modal-save{background:linear-gradient(135deg,var(--green),var(--green-light));color:white;border:none;box-shadow:0 4px 12px rgba(26,107,74,0.3);}
+.btn-modal-cancel{background:none;border:1.5px solid var(--border);color:var(--muted);}
+.btn-modal-delete{background:none;border:1.5px solid #fc8181;color:var(--red);}
+
+/* ALARME */
+.alarm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:300;align-items:center;justify-content:center;}
+.alarm-overlay.show{display:flex;}
+.alarm-box{background:white;border-radius:24px;padding:2.5rem 2rem;text-align:center;max-width:320px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+.alarm-icon{font-size:4rem;display:block;margin-bottom:1rem;animation:bell 0.5s ease infinite alternate;}
+.alarm-title{font-family:'Lateef',serif;font-size:1.8rem;color:var(--green);margin-bottom:0.5rem;}
+.alarm-text{font-size:0.9rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;}
+.btn-alarm{background:linear-gradient(135deg,var(--green),var(--green-light));color:white;border:none;border-radius:12px;padding:0.9rem 2rem;font-size:0.95rem;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;width:100%;box-shadow:0 4px 16px rgba(26,107,74,0.3);}
+
+/* EMPTY */
+.empty{text-align:center;padding:2rem;color:var(--muted);font-size:0.88rem;}
+.empty-icon{font-size:2.2rem;display:block;margin-bottom:0.5rem;}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--green);color:white;padding:0.75rem 1.4rem;border-radius:100px;font-size:0.88rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.2);transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);z-index:100;white-space:nowrap;max-width:92vw;text-align:center;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ANIMATIONS */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes popIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
+@keyframes bell{from{transform:rotate(-15deg)}to{transform:rotate(15deg)}}
+.num-pulse{animation:pulse 0.4s ease;}
+
+@media(max-width:500px){
+  .dual-cards{grid-template-columns:1fr;}
+  .total-number{font-size:2.4rem;}
+  .arabic-title{font-size:2rem;}
+  .form-row{flex-direction:column;}
+  .member-bar-wrap,.history-bar-wrap{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="arabic-title" id="arabicTitle" onclick="editTitle()">اللَّهُمَّ صَلِّ عَلَىٰ سَيِّدِنَا مُحَمَّدٍ وَسَلِّمْ</div>
+    <div class="arabic-edit-area" id="arabicEditArea">
+      <input type="text" id="arabicInput" dir="rtl" placeholder="Écris le texte…">
+      <div class="arabic-edit-btns">
+        <button class="btn-save-arabic" onclick="saveTitle()">✓ Sauvegarder</button>
+        <button class="btn-cancel-arabic" onclick="cancelTitle()">Annuler</button>
+      </div>
+    </div>
+    <div class="subtitle">Salât ʿala Nabi ﷺ — Compteur du Groupe</div>
+    <div class="ornament"><span>✦</span></div>
+    <div class="desc">Ensemble, célébrons le Prophète ﷺ</div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="status-bar">
+    <div class="status-dot" id="statusDot"></div>
+    <span class="status-text" id="statusText">Connexion…</span>
+    <span class="sync-ind" id="syncInd">↻ sync</span>
+  </div>
+
+  <div id="mainContent">
+
+    <!-- TOTAUX -->
+    <div class="dual-cards">
+      <div class="total-card tc-global">
+        <div class="total-label">Total depuis le début</div>
+        <div class="total-number" id="totalGlobal" onclick="toggleMask()" title="Cliquer pour masquer">0</div>
+        <div class="total-sub" id="globalSub">tous les jours</div>
+      </div>
+      <div class="total-card tc-day">
+        <div class="total-label">Aujourd'hui</div>
+        <div class="total-number" id="totalDay" onclick="toggleMask()" title="Cliquer pour masquer">0</div>
+        <div class="today-badge" id="todayBadge">📅 —</div>
+      </div>
+    </div>
+
+    <!-- PROGRESSION -->
+    <div class="progress-card" id="progressCard">
+      <div class="prog-info">
+        <span id="memberInfo">0 membre(s)</span>
+        <span id="progPct" style="color:var(--green);font-weight:700;">0%</span>
+      </div>
+      <div class="prog-bar-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+      <div class="prog-goal" id="progGoal"></div>
+    </div>
+
+    <!-- CONFIG -->
+    <div class="config-bar">
+      <div class="config-item">
+        🎯 Objectif/pers :
+        <input type="number" class="config-input" id="goalInput" min="1" placeholder="—" oninput="debouncedSave()" readonly>
+      </div>
+      <button class="btn-sm btn-red" onclick="demanderAdmin(confirmReset)">🗑 Réinit.</button>
+      <button class="btn-sm btn-gold" id="adminBtn" onclick="toggleAdmin()">🔐 Admin</button>
+    </div>
+
+    <!-- FORMULAIRE -->
+    <div class="card" style="cursor:default;">
+      <div style="font-size:0.95rem;font-weight:700;color:var(--green);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
+        <span style="display:block;width:4px;height:1.1em;border-radius:2px;background:var(--gold);flex-shrink:0;"></span>
+        Ajouter ma contribution
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <div class="form-label">Prénom <span>(facultatif)</span></div>
+          <input type="text" id="nameInput" placeholder="Vide = Sope Nabi" autocomplete="given-name">
+        </div>
+        <div class="form-group">
+          <div class="form-label">Nombre de Salât</div>
+          <input type="number" id="countInput" placeholder="100" min="1" max="1000000">
+        </div>
+      </div>
+      <div class="toggle-row" id="visibiliteToggle" onclick="toggleAnonymat()">
+        <div class="toggle-switch on" id="visSwitch"></div>
+        <div>
+          <div class="toggle-label" id="visLabel">Contribution visible par le groupe</div>
+          <span class="toggle-sub" id="visSub">Ton nom apparaît dans le classement</span>
+        </div>
+      </div>
+      <button class="btn-submit" id="submitBtn" onclick="addContribution()">Soumettre ﷺ</button>
+    </div>
+
+    <!-- CLASSEMENT -->
+    <div class="card">
+      <div class="card-head" onclick="toggleSection('memberList','arrowMember')">
+        <div class="card-title">Classement du jour</div>
+        <span class="arrow" id="arrowMember">▼</span>
+      </div>
+      <div class="collapsible" id="memberList">
+        <div class="member-list" id="memberListInner">
+          <div class="empty"><span class="empty-icon">☪️</span>Aucune contribution encore.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORIQUE -->
+    <div class="card">
+      <div class="card-head" onclick="toggleSection('historyPanel','arrowHistory')">
+        <div class="card-title blue">📅 Historique</div>
+        <span class="arrow" id="arrowHistory">▼</span>
+      </div>
+      <div class="collapsible" id="historyPanel">
+        <div class="history-tabs">
+          <button class="history-tab active" onclick="setView('jour',this)">📅 Jours</button>
+          <button class="history-tab" onclick="setView('mois',this)">📆 Mois</button>
+          <button class="history-tab" onclick="setView('annee',this)">📁 Années</button>
+        </div>
+        <div id="historyContent">
+          <div class="empty"><span class="empty-icon">📊</span>L'historique apparaîtra au fil des jours.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RAPPEL -->
+    <div class="card" style="cursor:default;">
+      <div style="font-size:0.95rem;font-weight:700;color:var(--green);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
+        <span style="display:block;width:4px;height:1.1em;border-radius:2px;background:var(--gold);flex-shrink:0;"></span>
+        🔔 Rappel quotidien
+      </div>
+      <div class="rappel-row">
+        <input type="time" id="rappelTime" value="08:00" onchange="saveRappel()">
+        <div class="toggle-row" style="flex:1;margin-bottom:0;" onclick="toggleRappel()">
+          <div class="toggle-switch" id="rappelSwitch"></div>
+          <div class="toggle-label" id="rappelLabel">Rappel désactivé</div>
+        </div>
+      </div>
+      <div class="rappel-desc" id="rappelDesc">⚠️ La page doit rester ouverte pour recevoir le rappel.</div>
+    </div>
+
+  </div><!-- mainContent -->
+</div><!-- container -->
+
+<!-- MODAL EDIT MEMBRE -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <div class="modal-title" id="editTitle">✏️ Modifier ma contribution</div>
+    <div class="modal-field">
+      <label>Prénom</label>
+      <input type="text" id="editName" placeholder="Prénom">
+      <div class="modal-hint" id="editNameHint" style="display:none;">🔒 Seul l'admin peut modifier le prénom</div>
+    </div>
+    <div class="modal-field">
+      <label>Total des Salât</label>
+      <input type="number" id="editCount" placeholder="Nombre" min="0">
+    </div>
+    <div class="modal-btns">
+      <button class="btn-modal-delete" onclick="deleteMember()">🗑 Supprimer</button>
+      <button class="btn-modal-cancel" onclick="closeEdit()">Annuler</button>
+      <button class="btn-modal-save" onclick="saveEdit()">✓ Sauver</button>
+    </div>
+  </div>
+</div>
+
+<!-- ALARME -->
+<div class="alarm-overlay" id="alarmOverlay">
+  <div class="alarm-box">
+    <span class="alarm-icon">🔔</span>
+    <div class="alarm-title">اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ</div>
+    <div class="alarm-text">C'est l'heure de tes Salât ʿala Nabi ﷺ<br>Le groupe t'attend aujourd'hui 🤲</div>
+    <button class="btn-alarm" onclick="closeAlarm()">Je soumets mes Salât ﷺ</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════
+const FB_URL   = 'https://salat-f6e3e-default-rtdb.firebaseio.com';
+const GROUP_ID = 'SALAT-GROUPE';
+const ADMIN_PW = 'G_SALATOU';
+
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+let state   = { members:{}, contributions:0, goal:0 };
+let history = {};
+let adminUnlocked  = false;
+let anonyme        = false;
+let masked         = false;
+let editingName    = null;
+let pollTimer      = null;
+let saveTimer      = null;
+let isSaving       = false;
+let _initialLoadDone = false;
+let histView       = 'jour';
+let grandTotalVal  = 0;
+let dayTotalVal    = 0;
+
+// Local (par téléphone)
+let pseudoLocal   = localStorage.getItem('salat-pseudo') || '';
+let rappelActif   = localStorage.getItem('salat-rappel') === 'true';
+let rappelHeure   = localStorage.getItem('salat-rappel-heure') || '08:00';
+let rappelTimer   = null;
+
+// ═══════════════════════════════════════════════
+//  DATE
+// ═══════════════════════════════════════════════
+function todayKey() { return new Date().toISOString().slice(0,10); }
+
+function fmtDate(key) {
+  const [y,m,d] = key.split('-');
+  const jours = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  return { short:`${d}/${m}/${y}`, day:jours[new Date(+y,+m-1,+d).getDay()], month:+m, year:+y };
+}
+
+function totalOf(members) {
+  return Object.values(members||{}).reduce((a,b)=>a+b,0);
+}
+
+const MOIS_NOMS = ['Janv','Févr','Mars','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+
+// ═══════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════
+window.onload = () => {
+  if (pseudoLocal) document.getElementById('nameInput').value = pseudoLocal;
+  document.getElementById('rappelTime').value = rappelHeure;
+  updateRappelUI();
+  if (rappelActif) scheduleAlarm();
+  setStatus('loading','Connexion…');
+  fetchAll();
+};
+
+// ═══════════════════════════════════════════════
+//  FIREBASE
+// ═══════════════════════════════════════════════
+async function fetchAll() {
+  try {
+    const res = await fetch(`${FB_URL}/groupes/${GROUP_ID}.json`);
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+
+    if (!data) { setStatus('online','Groupe initialisé'); startPolling(); render(); return; } // Ne jamais écraser si données absentes
+
+    const today = todayKey();
+
+    // Objectif
+    if (data.goal !== undefined) state.goal = data.goal;
+
+    // Titre arabe
+    if (data.arabicTitle) document.getElementById('arabicTitle').textContent = data.arabicTitle;
+
+    // Jour courant
+    if (data.days && data.days[today]) {
+      const d = data.days[today];
+      Object.entries(d.members||{}).forEach(([n,c]) => {
+        if (c > (state.members[n]||0)) state.members[n] = c;
+      });
+      if ((d.contributions||0) > state.contributions) state.contributions = d.contributions;
+    }
+
+    // Historique
+    history = {};
+    if (data.days) {
+      Object.entries(data.days).forEach(([k,v]) => {
+        if (k !== today) history[k] = v;
+      });
+    }
+
+    _initialLoadDone = true;
+    setStatus('online','Synchronisé · '+heure());
+    flashSync();
+    render();
+    renderHistory();
+    if (!pollTimer) startPolling();
+  } catch(e) {
+    setStatus('error','Erreur réseau…');
+    if (!pollTimer) setTimeout(fetchAll, 5000);
+  }
+}
+
+// ── Écriture granulaire Firebase (ne touche qu'une seule donnée à la fois) ──
+async function fbPatch(path, data) {
+  const res = await fetch(`${FB_URL}/groupes/${GROUP_ID}/${path}.json`, {
+    method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error(res.status);
+}
+async function fbPut(path, data) {
+  const res = await fetch(`${FB_URL}/groupes/${GROUP_ID}/${path}.json`, {
+    method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error(res.status);
+}
+async function fbDelete(path) {
+  const res = await fetch(`${FB_URL}/groupes/${GROUP_ID}/${path}.json`, { method:'DELETE' });
+  if (!res.ok) throw new Error(res.status);
+}
+
+// Écrire uniquement le nombre d'un membre pour aujourd'hui
+async function saveMember(name, count) {
+  if (isSaving) return;
+  isSaving = true; flashSync();
+  try {
+    const today = todayKey();
+    await fbPatch(`days/${today}/members`, { [name]: count });
+    await fbPatch(`days/${today}`, { contributions: state.contributions, total: totalOf(state.members) });
+    setStatus('online','Synchronisé · '+heure());
+  } catch(e) { setStatus('error','Erreur'); showToast('❌ Erreur réseau'); }
+  finally { isSaving = false; }
+}
+
+// Supprimer un membre
+async function deleteMemberFB(name) {
+  if (isSaving) return;
+  isSaving = true; flashSync();
+  try {
+    const today = todayKey();
+    await fbPut(`days/${today}/members/${encodeFirebaseKey(name)}`, null);
+    await fbPatch(`days/${today}`, { contributions: state.contributions, total: totalOf(state.members) });
+    setStatus('online','Synchronisé · '+heure());
+  } catch(e) { setStatus('error','Erreur'); showToast('❌ Erreur réseau'); }
+  finally { isSaving = false; }
+}
+
+// Écrire l'objectif seul
+async function saveGoal() {
+  try { await fbPatch('', { goal: state.goal }); } catch(e) {}
+}
+
+// Écrire le titre arabe seul
+async function saveTitleFB(val) {
+  try { await fbPatch('', { arabicTitle: val }); } catch(e) {}
+}
+
+// Réinitialiser la journée : archiver puis effacer
+async function pushReset() {
+  if (isSaving) return;
+  isSaving = true; flashSync();
+  try {
+    const today = todayKey();
+    await fbPut(`days/${today}`, { members:{}, contributions:0, total:0 });
+    setStatus('online','Synchronisé · '+heure());
+  } catch(e) { setStatus('error','Erreur'); showToast('❌ Erreur réseau'); }
+  finally { isSaving = false; }
+}
+
+// Supprimer un jour d'historique
+async function deleteDayFB(key) {
+  try { await fbPut(`days/${key}`, null); } catch(e) { showToast('❌ Erreur réseau'); }
+}
+
+// Firebase ne supporte pas les clés avec certains caractères — on encode
+function encodeFirebaseKey(k) { return k.replace(/\./g,'_dot_').replace(/#/g,'_hash_').replace(/\$/g,'_dol_').replace(/\[/g,'_lb_').replace(/\]/g,'_rb_').replace(/\//g,'_sl_'); }
+
+// pushAll utilisé UNIQUEMENT pour la réinit totale admin ou sauvegarde titre/objectif
+async function pushAll() {
+  // DÉSACTIVÉ - on utilise les écritures granulaires maintenant
+  // Cette fonction ne fait plus rien pour éviter les écrasements
+}
+
+function startPolling() {
+  clearInterval(pollTimer);
+  pollTimer = setInterval(fetchAll, 3000);
+}
+
+function debouncedSave() {
+  const v = parseInt(document.getElementById('goalInput').value);
+  state.goal = v > 0 ? v : 0;
+  render();
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveGoal, 1000);
+}
+
+// ═══════════════════════════════════════════════
+//  ACTIONS
+// ═══════════════════════════════════════════════
+async function addContribution() {
+  const rawName = document.getElementById('nameInput').value.trim();
+  const name    = rawName || 'Sope Nabi';
+  const count   = parseInt(document.getElementById('countInput').value);
+
+  if (!count || count < 1) { showToast('⚠️ Entre un nombre valide'); document.getElementById('countInput').focus(); return; }
+
+  if (rawName) { pseudoLocal = rawName; localStorage.setItem('salat-pseudo', rawName); }
+
+  const cle = anonyme ? '🕌 Anonyme' : name;
+  state.members[cle] = (state.members[cle]||0) + count;
+  state.contributions++;
+  render();
+  showToast(`🌿 +${fmt(count)} pour ${anonyme?'Anonyme':name} — BarakAllahu fik !`);
+  document.getElementById('countInput').value = '';
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  await saveMember(cle, state.members[cle]);
+  btn.disabled = false;
+}
+
+async function confirmReset() {
+  if (!confirm('Réinitialiser le jour en cours ?\nL\'historique des jours précédents est conservé.')) return;
+  state = { members:{}, contributions:0, goal:state.goal };
+  render(); renderHistory();
+  await pushReset();
+  showToast('✅ Journée réinitialisée');
+}
+
+// ═══════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════
+function render() {
+  const today  = todayKey();
+  const dayTotal  = totalOf(state.members);
+  const histTotal = Object.values(history).reduce((s,d)=>s+(d.total||totalOf(d.members||{})),0);
+  const grand  = dayTotal + histTotal;
+  const nbJours= Object.keys(history).length + (dayTotal>0?1:0);
+  const nbM    = Object.keys(state.members).filter(k=>k!=='🕌 Anonyme').length;
+  const goalTotal = state.goal > 0 ? state.goal * Math.max(nbM,1) : 0;
+  const pct    = goalTotal > 0 ? Math.min(100, Math.round((dayTotal/goalTotal)*100)) : 0;
+
+  // Cache pour masque
+  grandTotalVal = grand;
+  dayTotalVal   = dayTotal;
+
+  // Afficher totaux (ou masqué)
+  const gEl = document.getElementById('totalGlobal');
+  const dEl = document.getElementById('totalDay');
+  if (!masked) {
+    gEl.textContent = fmt(grand);
+    gEl.classList.remove('masked');
+    dEl.textContent = fmt(dayTotal);
+    dEl.classList.remove('masked');
+    gEl.classList.remove('num-pulse'); void gEl.offsetWidth; gEl.classList.add('num-pulse');
+    dEl.classList.remove('num-pulse'); void dEl.offsetWidth; dEl.classList.add('num-pulse');
+  }
+
+  document.getElementById('globalSub').textContent = nbJours <= 1 ? "depuis aujourd'hui" : `sur ${nbJours} jours`;
+
+  // Date badge
+  const {short,day} = fmtDate(today);
+  document.getElementById('todayBadge').textContent = `📅 ${day} ${short}`;
+
+  // Progression
+  document.getElementById('memberInfo').textContent = `${nbM} membre(s) · ${state.contributions} contribution(s)`;
+  document.getElementById('progBar').style.width = pct+'%';
+  document.getElementById('progPct').textContent  = goalTotal > 0 ? pct+'%' : '—';
+  document.getElementById('progGoal').textContent = goalTotal > 0 ? `Objectif du jour : ${fmt(goalTotal)}` : '';
+  document.getElementById('progressCard').style.display = goalTotal > 0 ? 'block' : 'none';
+
+  // Objectif input
+  const gi = document.getElementById('goalInput');
+  if (gi && state.goal > 0) gi.value = state.goal;
+
+  // Classement
+  const sorted = Object.entries(state.members).sort((a,b)=>b[1]-a[1]);
+  const max    = sorted[0]?.[1]||1;
+  const inner  = document.getElementById('memberListInner');
+  if (!sorted.length) {
+    inner.innerHTML = '<div class="empty"><span class="empty-icon">☪️</span>Aucune contribution encore.</div>';
+    return;
+  }
+  inner.innerHTML = sorted.map(([name,count],i) => {
+    const rc = i===0?'gold':i===1?'silver':i===2?'bronze':'';
+    const bp = Math.max(4,Math.round((count/max)*100));
+    const pg = state.goal > 0 ? Math.min(100,Math.round((count/state.goal)*100)) : 0;
+    const nameEncoded = encodeURIComponent(name);
+    const monNom = pseudoLocal || 'Sope Nabi';
+    const canEdit = adminUnlocked || name.toLowerCase() === monNom.toLowerCase() || name === '🕌 Anonyme' && !pseudoLocal;
+    return `<div class="member-item" style="animation-delay:${i*0.05}s">
+      <div class="rank ${rc}">${i+1}</div>
+      <div class="member-name">${esc(name)}</div>
+      <div class="member-bar-wrap"><div class="member-bar" style="width:${bp}%"></div></div>
+      <div class="member-right">
+        <div class="member-count">${fmt(count)}</div>
+        <div class="member-pct">${state.goal>0?pg+'% obj.':''}</div>
+      </div>
+      ${canEdit ? `<button class="edit-btn" onclick="openEdit('${nameEncoded}',${count})">✏️</button>` : '<span style="width:1.4rem"></span>'}
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════
+//  HISTORIQUE
+// ═══════════════════════════════════════════════
+function setView(view, btn) {
+  histView = view;
+  document.querySelectorAll('.history-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderHistory();
+}
+
+function renderHistory() {
+  const c = document.getElementById('historyContent');
+  if (!c) return;
+  const entries = Object.entries(history).sort((a,b)=>b[0].localeCompare(a[0]));
+  if (!entries.length) { c.innerHTML = '<div class="empty"><span class="empty-icon">📊</span>L\'historique apparaîtra au fil des jours.</div>'; return; }
+  if (histView === 'jour')  renderJours(c, entries);
+  if (histView === 'mois')  renderMois(c, entries);
+  if (histView === 'annee') renderAnnees(c, entries);
+}
+
+function itemHTML(key, val, maxT) {
+  const {short,day} = fmtDate(key);
+  const total = val.total || totalOf(val.members||{});
+  const nbM   = Object.keys(val.members||{}).length;
+  const bp    = Math.max(4, Math.round((total/Math.max(maxT,1))*100));
+  const g     = state.goal > 0 ? state.goal * Math.max(nbM,1) : 0;
+  const badge = g > 0
+    ? (total >= g ? '<span class="history-badge gold">✓ Obj.</span>' : `<span class="history-badge">${Math.round((total/g)*100)}%</span>`)
+    : '';
+  const delBtn = adminUnlocked
+    ? `<button class="btn-del-sm" onclick="event.stopPropagation();delJour('${key}')">🗑</button>` : '';
+  return `<div class="history-item">
+    <div class="history-date">${short}<span class="history-day">${day}</span></div>
+    <div class="history-bar-wrap"><div class="history-bar" style="width:${bp}%"></div></div>
+    <span style="font-size:0.7rem;color:var(--muted)">${nbM}m</span>
+    ${badge}
+    <div class="history-total">${fmt(total)}</div>
+    ${delBtn}
+  </div>`;
+}
+
+function renderJours(c, entries) {
+  const maxT = Math.max(...entries.map(([,v])=>v.total||totalOf(v.members||{})),1);
+  c.innerHTML = entries.map(([k,v])=>itemHTML(k,v,maxT)).join('');
+}
+
+function renderMois(c, entries) {
+  const moisMap = {};
+  entries.forEach(([k,v])=>{ const m=k.slice(0,7); (moisMap[m]=moisMap[m]||[]).push([k,v]); });
+  const keys = Object.keys(moisMap).sort((a,b)=>b.localeCompare(a));
+  c.innerHTML = keys.map(m => {
+    const jours  = moisMap[m];
+    const tot    = jours.reduce((s,[,v])=>s+(v.total||totalOf(v.members||{})),0);
+    const maxT   = Math.max(...jours.map(([,v])=>v.total||totalOf(v.members||{})),1);
+    const [y,mo] = m.split('-');
+    const id     = 'm'+m.replace('-','');
+    const delBtn = adminUnlocked ? `<button class="btn-del-sm" onclick="event.stopPropagation();delMois('${m}')">🗑 Effacer</button>` : '';
+    return `<div class="section-header" onclick="toggleGrp('${id}')">
+      <span class="section-title">📆 ${MOIS_NOMS[+mo-1]} ${y}</span>
+      <span class="section-right">
+        <span class="section-total">${fmt(tot)}</span>
+        ${delBtn}
+        <span class="section-arrow" id="arr-${id}">▼</span>
+      </span>
+    </div>
+    <div class="section-body" id="${id}">${jours.map(([k,v])=>itemHTML(k,v,maxT)).join('')}</div>`;
+  }).join('');
+}
+
+function renderAnnees(c, entries) {
+  const anMap = {};
+  entries.forEach(([k,v])=>{ const a=k.slice(0,4); (anMap[a]=anMap[a]||[]).push([k,v]); });
+  const keys = Object.keys(anMap).sort((a,b)=>b.localeCompare(a));
+  c.innerHTML = keys.map(a => {
+    const jours = anMap[a];
+    const tot   = jours.reduce((s,[,v])=>s+(v.total||totalOf(v.members||{})),0);
+    const maxT  = Math.max(...jours.map(([,v])=>v.total||totalOf(v.members||{})),1);
+    const id    = 'a'+a;
+    const delBtn = adminUnlocked ? `<button class="btn-del-sm" onclick="event.stopPropagation();delAnnee('${a}')">🗑 Effacer</button>` : '';
+    return `<div class="section-header" onclick="toggleGrp('${id}')">
+      <span class="section-title">📁 ${a}</span>
+      <span class="section-right">
+        <span class="section-total">${fmt(tot)}</span>
+        ${delBtn}
+        <span class="section-arrow" id="arr-${id}">▼</span>
+      </span>
+    </div>
+    <div class="section-body" id="${id}">${jours.map(([k,v])=>itemHTML(k,v,maxT)).join('')}</div>`;
+  }).join('');
+}
+
+function toggleGrp(id) {
+  document.getElementById(id)?.classList.toggle('open');
+  document.getElementById('arr-'+id)?.classList.toggle('open');
+}
+
+// Suppressions historique
+async function delJour(key) {
+  if (!confirm(`Supprimer le ${fmtDate(key).short} ?`)) return;
+  delete history[key]; renderHistory(); await deleteDayFB(key); showToast('🗑 Jour supprimé');
+}
+async function delMois(mois) {
+  const [y,m] = mois.split('-');
+  if (!confirm(`Supprimer ${MOIS_NOMS[+m-1]} ${y} ?`)) return;
+  const keysToDelete = Object.keys(history).filter(k=>k.startsWith(mois));
+  keysToDelete.forEach(k=>delete history[k]);
+  renderHistory();
+  await Promise.all(keysToDelete.map(k=>deleteDayFB(k)));
+  showToast('🗑 Mois supprimé');
+}
+async function delAnnee(an) {
+  if (!confirm(`Supprimer toute l'année ${an} ?`)) return;
+  const keysAn = Object.keys(history).filter(k=>k.startsWith(an));
+  keysAn.forEach(k=>delete history[k]);
+  renderHistory();
+  await Promise.all(keysAn.map(k=>deleteDayFB(k)));
+  showToast('🗑 Année supprimée');
+}
+
+// ═══════════════════════════════════════════════
+//  MODIFIER MEMBRE
+// ═══════════════════════════════════════════════
+function openEdit(nameEncoded, count) {
+  const name = decodeURIComponent(nameEncoded);
+  editingName = name;
+  document.getElementById('editName').value    = name;
+  document.getElementById('editName').readOnly = !adminUnlocked;
+  document.getElementById('editName').style.opacity = adminUnlocked ? '1' : '0.6';
+  document.getElementById('editNameHint').style.display = adminUnlocked ? 'none' : 'block';
+  document.getElementById('editCount').value   = count;
+  document.getElementById('editTitle').textContent = adminUnlocked ? '✏️ Modifier la contribution' : '✏️ Modifier mon nombre';
+  document.getElementById('editModal').classList.add('show');
+}
+
+function closeEdit() {
+  document.getElementById('editModal').classList.remove('show');
+  editingName = null;
+}
+
+async function saveEdit() {
+  const newName  = document.getElementById('editName').value.trim();
+  const newCount = parseInt(document.getElementById('editCount').value);
+  if (!newName) { showToast('⚠️ Prénom vide'); return; }
+  if (isNaN(newCount) || newCount < 0) { showToast('⚠️ Nombre invalide'); return; }
+  if (editingName !== newName) delete state.members[editingName];
+  state.members[newName] = newCount;
+  closeEdit(); render();
+  await saveMember(newName, state.members[newName]);
+  showToast('✅ Contribution mise à jour');
+}
+
+async function deleteMember() {
+  if (!confirm(`Supprimer la contribution de ${editingName} ?`)) return;
+  delete state.members[editingName];
+  state.contributions = Math.max(0, state.contributions - 1);
+  closeEdit(); render();
+  await deleteMemberFB(editingName);
+  // Réécrire le total du jour
+  await saveMember('__dummy__', null);
+  try {
+    const today = todayKey();
+    await fbPatch(`days/${today}`, { contributions: state.contributions, total: totalOf(state.members) });
+    await fbDelete(`days/${today}/members/__dummy__`);
+  } catch(e) {}
+  showToast('🗑 Contribution supprimée');
+}
+
+document.getElementById('editModal').addEventListener('click', e => { if (e.target === document.getElementById('editModal')) closeEdit(); });
+
+// ═══════════════════════════════════════════════
+//  MASQUER CHIFFRES
+// ═══════════════════════════════════════════════
+function toggleMask() {
+  masked = !masked;
+  const gEl = document.getElementById('totalGlobal');
+  const dEl = document.getElementById('totalDay');
+  gEl.textContent = masked ? '••••' : fmt(grandTotalVal);
+  dEl.textContent = masked ? '••••' : fmt(dayTotalVal);
+  gEl.classList.toggle('masked', masked);
+  dEl.classList.toggle('masked', masked);
+  document.querySelectorAll('.member-count,.member-pct,.history-total,.history-badge').forEach(el => {
+    el.style.filter = masked ? 'blur(6px)' : '';
+  });
+}
+
+// ═══════════════════════════════════════════════
+//  TOGGLE ANONYMAT
+// ═══════════════════════════════════════════════
+function toggleAnonymat() {
+  anonyme = !anonyme;
+  const sw = document.getElementById('visSwitch');
+  sw.classList.toggle('on', !anonyme);
+  document.getElementById('visLabel').textContent = anonyme ? 'Contribution anonyme' : 'Contribution visible par le groupe';
+  document.getElementById('visSub').textContent   = anonyme ? "Ton nom n'apparaît pas dans le classement" : 'Ton nom apparaît dans le classement';
+}
+
+// ═══════════════════════════════════════════════
+//  SECTIONS REPLIABLES
+// ═══════════════════════════════════════════════
+function toggleSection(id, arrowId) {
+  document.getElementById(id)?.classList.toggle('open');
+  document.getElementById(arrowId)?.classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════════
+//  TITRE ARABE (ADMIN)
+// ═══════════════════════════════════════════════
+function editTitle() {
+  if (!adminUnlocked) return;
+  document.getElementById('arabicInput').value = document.getElementById('arabicTitle').textContent.trim();
+  document.getElementById('arabicTitle').style.display = 'none';
+  document.getElementById('arabicEditArea').style.display = 'block';
+  document.getElementById('arabicInput').focus();
+}
+async function saveTitle() {
+  const val = document.getElementById('arabicInput').value.trim();
+  if (!val) { showToast('⚠️ Texte vide'); return; }
+  document.getElementById('arabicTitle').textContent = val;
+  document.getElementById('arabicTitle').style.display = 'inline-block';
+  document.getElementById('arabicEditArea').style.display = 'none';
+  await saveTitleFB(val);
+  showToast('✅ Texte mis à jour pour tout le groupe');
+}
+function cancelTitle() {
+  document.getElementById('arabicTitle').style.display = 'inline-block';
+  document.getElementById('arabicEditArea').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════
+//  ADMIN
+// ═══════════════════════════════════════════════
+function toggleAdmin() {
+  if (adminUnlocked) {
+    adminUnlocked = false;
+    document.getElementById('adminBtn').textContent = '🔐 Admin';
+    document.getElementById('adminBtn').classList.remove('active');
+    document.getElementById('goalInput').setAttribute('readonly', true);
+    document.getElementById('arabicTitle').classList.remove('editable');
+    document.getElementById('arabicTitle').title = '';
+    renderHistory();
+    showToast('🔒 Mode admin désactivé');
+  } else {
+    const pwd = prompt('🔐 Mot de passe administrateur :');
+    if (pwd === ADMIN_PW) {
+      adminUnlocked = true;
+      document.getElementById('adminBtn').textContent = '🔓 Admin';
+      document.getElementById('adminBtn').classList.add('active');
+      document.getElementById('goalInput').removeAttribute('readonly');
+      document.getElementById('arabicTitle').classList.add('editable');
+      document.getElementById('arabicTitle').title = 'Cliquer pour modifier';
+      renderHistory();
+      showToast('✅ Mode admin activé');
+    } else if (pwd !== null) {
+      showToast('❌ Mot de passe incorrect');
+    }
+  }
+}
+
+function demanderAdmin(action) {
+  if (adminUnlocked) { action(); return; }
+  const pwd = prompt('🔐 Mot de passe administrateur :');
+  if (pwd === ADMIN_PW) action();
+  else if (pwd !== null) showToast('❌ Mot de passe incorrect');
+}
+
+// ═══════════════════════════════════════════════
+//  RAPPEL QUOTIDIEN
+// ═══════════════════════════════════════════════
+function toggleRappel() {
+  rappelActif = !rappelActif;
+  localStorage.setItem('salat-rappel', rappelActif);
+  updateRappelUI();
+  if (rappelActif) { scheduleAlarm(); showToast('🔔 Rappel activé à ' + rappelHeure); }
+  else { clearTimeout(rappelTimer); showToast('🔕 Rappel désactivé'); }
+}
+
+function saveRappel() {
+  rappelHeure = document.getElementById('rappelTime').value;
+  localStorage.setItem('salat-rappel-heure', rappelHeure);
+  if (rappelActif) { clearTimeout(rappelTimer); scheduleAlarm(); showToast('🔔 Mis à jour à ' + rappelHeure); }
+  updateRappelUI();
+}
+
+function updateRappelUI() {
+  const sw = document.getElementById('rappelSwitch');
+  const lb = document.getElementById('rappelLabel');
+  if (!sw) return;
+  sw.classList.toggle('on', rappelActif);
+  lb.textContent = rappelActif ? '✅ Rappel activé à ' + rappelHeure : 'Rappel désactivé';
+  lb.style.color = rappelActif ? 'var(--green)' : 'var(--text)';
+}
+
+function scheduleAlarm() {
+  if (!rappelActif) return;
+  clearTimeout(rappelTimer);
+  const [h,m] = rappelHeure.split(':').map(Number);
+  const now   = new Date();
+  const next  = new Date();
+  next.setHours(h, m, 0, 0);
+  if (next <= now) next.setDate(next.getDate()+1);
+  rappelTimer = setTimeout(() => { showAlarm(); scheduleAlarm(); }, next-now);
+}
+
+function showAlarm() {
+  document.getElementById('alarmOverlay').classList.add('show');
+  if (navigator.vibrate) navigator.vibrate([400,200,400,200,400]);
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    [523,659,784,659,784,1047].forEach((f,i) => {
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value=f; o.type='sine';
+      g.gain.setValueAtTime(0.3, ctx.currentTime+i*0.18);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+i*0.18+0.15);
+      o.start(ctx.currentTime+i*0.18); o.stop(ctx.currentTime+i*0.18+0.15);
+    });
+  } catch(e) {}
+}
+
+function closeAlarm() {
+  document.getElementById('alarmOverlay').classList.remove('show');
+  document.getElementById('countInput').focus();
+}
+
+// ═══════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════
+function fmt(n) { return n.toLocaleString('fr-FR'); }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function heure() { return new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}); }
+
+function setStatus(type, msg) {
+  const dot = document.getElementById('statusDot');
+  dot.className = 'status-dot'+(type==='online'?' online':type==='error'?' error':'');
+  document.getElementById('statusText').textContent = msg;
+}
+function flashSync() {
+  const el = document.getElementById('syncInd');
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 2000);
+}
+
+let toastT;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>t.classList.remove('show'), 3500);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !['arabicInput','editName','editCount'].includes(document.activeElement?.id)) {
+    addContribution();
+  }
+});
+</script>
+</body>
+</html>
